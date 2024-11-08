@@ -69,7 +69,7 @@ stages{
     {
         when { expression {params.select_environment == 'dev'}
         beforeAgent true}
-        agent { label 'DevServer' }
+        agent { label 'node2' }
         steps
         {
             dir("/var/www/html")
