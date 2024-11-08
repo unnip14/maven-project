@@ -38,7 +38,7 @@ stages{
         parallel {
             stage('testA')
             {
-                agent { label 'DevServer' }
+                agent { label 'node2' }
                 steps{
                     echo " This is test A"
                     sh "mvn test"
@@ -47,7 +47,7 @@ stages{
             }
             stage('testB')
             {
-                agent { label 'DevServer' }
+                agent { label 'node2' }
                 steps{
                 echo "this is test B"
                 sh "mvn test"
@@ -87,7 +87,7 @@ stages{
     {
       when { expression {params.select_environment == 'prod'}
         beforeAgent true}
-        agent { label 'ProdServer' }
+        agent { label 'node2' }
         steps
         {
              timeout(time:5, unit:'DAYS'){
