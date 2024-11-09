@@ -14,7 +14,6 @@ environment{
 }
 tools {
   maven 'mymaven'
-  git 'Default'
 }
 
 stages{
@@ -48,7 +47,7 @@ stages{
             }
             stage('testB')
             {
-                agent { label 'node1' }
+                agent { label 'DevServer' }
                 steps{
                 echo "this is test B"
                 sh "mvn test"
@@ -83,11 +82,31 @@ stages{
             """
         }
     }
+
+    stage('deploy_prod')
+    {
+      when { expression {params.select_environment == 'prod'}
+        beforeAgent true}
+        agent { label 'ProdServer' }
+        steps
+        {
+             timeout(time:5, unit:'DAYS'){
+                input message: 'Deployment approved?'
+             }
+            dir("/var/www/html")
+            {
+                unstash "maven-build"
+            }
+            sh """
+            cd /var/www/html/
+            jar -xvf webapp.war
+            """
+        }  
+    }
+
+   
+
+    
 }
 
-    
-
-}   
-
-    
-
+}
