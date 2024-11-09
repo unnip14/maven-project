@@ -14,7 +14,7 @@ environment{
 }
 tools {
   maven 'mymaven'
-  tool name: 'Default', type: 'git'
+  git 'Default'
 }
 
 stages{
