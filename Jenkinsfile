@@ -87,7 +87,7 @@ stages{
     {
       when { expression {params.select_environment == 'prod'}
         beforeAgent true}
-        agent { label 'ProdServer' }
+        agent { label 'node2' }
         steps
         {
              timeout(time:5, unit:'DAYS'){
