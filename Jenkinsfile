@@ -38,7 +38,7 @@ stages{
         parallel {
             stage('testA')
             {
-                agent { label 'node2' }
+                agent { label 'node1' }
                 steps{
                     echo " This is test A"
                     sh "mvn test"
@@ -47,7 +47,7 @@ stages{
             }
             stage('testB')
             {
-                agent { label 'node2' }
+                agent { label 'node1' }
                 steps{
                 echo "this is test B"
                 sh "mvn test"
@@ -69,7 +69,7 @@ stages{
     {
         when { expression {params.select_environment == 'dev'}
         beforeAgent true}
-        agent { label 'node2' }
+        agent { label 'node1' }
         steps
         {
             dir("/var/www/html")
@@ -83,30 +83,8 @@ stages{
         }
     }
 
-    stage('deploy_prod')
-    {
-      when { expression {params.select_environment == 'prod'}
-        beforeAgent true}
-        agent { label 'node2' }
-        steps
-        {
-             timeout(time:5, unit:'DAYS'){
-                input message: 'Deployment approved?'
-             }
-            dir("/var/www/html")
-            {
-                unstash "maven-build"
-            }
-            sh """
-            cd /var/www/html/
-            jar -xvf webapp.war
-            """
-        }  
-    }
-
+    
    
 
     
-}
 
-}
