@@ -47,7 +47,7 @@ stages{
             }
             stage('testB')
             {
-                agent { label 'DevServer' }
+                agent { label 'node1' }
                 steps{
                 echo "this is test B"
                 sh "mvn test"
